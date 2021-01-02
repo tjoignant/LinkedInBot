@@ -1,0 +1,10 @@
+identification:
+  USER_EMAIL : 'tjoignant@gmail.com'
+  USER_PASSWORD : 'Gomiami1'
+
+filters:
+  FINANCE : 'MARKET'
+  ROLES : ['All']
+  INSTITUTIONS : ['All']
+  SENIORITIES : ['All']
+  LOCATIONS : ['All']
