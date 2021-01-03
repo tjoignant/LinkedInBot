@@ -1,4 +1,8 @@
-MARKET_ROLES_LIST : ['Sales', 'Trader']
-CORPO_ROLES_LIST : ['', '']
-MARKET_INSTITUTIONS_LIST: ['CACIB']
+AM_ROLES_LIST : ['Portfolio Manager', 'Quant']
+MARKET_ROLES_LIST : ['Sales', 'Trader', 'Structurer', 'Market Risk', 'Quant']
+CORPO_ROLES_LIST : ['M&A', 'DCM', 'ECM', 'Structured finance', 'Leveraged Finance', 'Private Equity', 'Project Finance',
+                    'Equity Research', 'Credit Analyst', 'Credit Risk']
+MARKET_INSTITUTIONS_LIST: ['JP Morgan', 'BNP', 'RBC', 'BBVA', 'Credit Agricole', 'HSBC', 'UBS', 'Barclays', 'Natixis',
+                           'Deutsche Bank', 'Goldman', 'BofA', 'Morgan Stanley', 'Citi', 'Commerzbank', 'BRED',
+                           'Credit Suisse', 'Societe Generale', 'CACIB']
 CORPO_INSTITUTIONS_LIST: ['', '']

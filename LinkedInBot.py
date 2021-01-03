@@ -99,8 +99,10 @@ class LinkedInBot:
         if banks[0] == 'All' or banks[0] == 'ALL':
             if finance == 'MARKET':
                 banks_list = filter_dictionary['MARKET_INSTITUTIONS_LIST']
-            else:
+            elif finance == 'CORPO':
                 banks_list = filter_dictionary['CORPO_INSTITUTIONS_LIST']
+            else:
+                banks_list = filter_dictionary['AM_INSTITUTIONS_LIST']
         else:
             banks_list = banks
 
