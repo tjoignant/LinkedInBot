@@ -136,10 +136,10 @@ class LinkedInBot:
         self._sleep()
 
     def _send_connection(self, connect_button):
-        # Click On The Button
+        # Click On "Connect" Button
         connect_button.click()
         self._sleep()
-        # Click On The "Send" Button
+        # Click On "Send" Button
         self.driver.find_element_by_class_name('ml1').click()
         self._sleep()
         # Update Counter
