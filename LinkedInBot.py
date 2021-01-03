@@ -186,7 +186,7 @@ if __name__ == '__main__':
     USER_EMAIL = config_dictionary['identification']['USER_EMAIL']
     USER_PASSWORD = config_dictionary['identification']['USER_PASSWORD']
 
-    # Initialize Bot Filters Parameters
+    # Initialize Bot Filter Parameters
     FINANCE = config_dictionary['filters']['FINANCE']
     ROLES = config_dictionary['filters']['ROLES']
     BANKS = config_dictionary['filters']['INSTITUTIONS']
