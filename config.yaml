@@ -1,6 +1,6 @@
 identification:
-  USER_EMAIL : 'tjoignant@gmail.com'
-  USER_PASSWORD : 'Gomiami1'
+  USER_EMAIL : 'enter_your_LinkedIn_username'
+  USER_PASSWORD : 'enter_your_LinkedIn_password'
 
 filters:
   FINANCE : 'MARKET'
