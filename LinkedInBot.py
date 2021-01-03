@@ -18,7 +18,7 @@ class LinkedInBot:
         self.base_url = "https://www.linkedin.com"
         self.login_url = self.base_url + "/login"
         self.feed_url = self.base_url + "/feed"
-        # Credentials
+        # LinkedIn Credentials
         self.username = username
         self.password = password
         # Variables
