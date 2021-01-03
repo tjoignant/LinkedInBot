@@ -147,7 +147,7 @@ class LinkedInBot:
         print('[INFO] {} - New connection request sent'.format(self._now()))
 
     def _search(self, search_text, search_filter='People'):
-        # Go To LinkedIn "Feed" Page
+        # GoTo LinkedIn "Feed"
         self._nav(self.feed_url)
         # Search Text
         print('\n[INFO] {} - Searching "{}"'.format(self._now(), search_text))
@@ -161,7 +161,7 @@ class LinkedInBot:
             self._sleep()
 
     def _nav(self, url):
-        # Go To URL
+        # GoTo URL
         self._sleep()
         self.driver.get(url)
         self._sleep()
