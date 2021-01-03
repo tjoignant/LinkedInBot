@@ -129,7 +129,7 @@ class LinkedInBot:
         return filters_list
 
     def _display_next_page(self, url, search_text, page_nb):
-        # Go To Next Page
+        # GoTo Next Page
         new_ulr = url + "&page=" + str(page_nb)
         self._nav(new_ulr)
         print('\n[INFO] {} - Searching "{}" (page {})'.format(self._now(), search_text, page_nb))
