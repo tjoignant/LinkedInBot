@@ -15,7 +15,7 @@ Bot version : BETA
 <br />
 
 **Tips:**
-  - Use a Premium Linkedin profile (to avoid the monthly 1000 profile limit)
+  - Use a Premium Linkedin profile (to avoid the monthly 1000 profiles visited limit)
   - Run during the night (especially if you use "ALL" for every filters)
 
 <br />
