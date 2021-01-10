@@ -7,16 +7,16 @@ Bot version : BETA
 
 <br />
 
-**Installation Steps**
-  - Step 1: Download this repository https://github.com/tjoignant/LinkedInBot/archive/main.zip
-  - Step 2: Open the *config.yalm* file and enter your LinkedIn Profile's credentials and the wanted filters
-  - Step 3: Run the *main.py* file 
+**Installation Steps:**
+  - Download this repository https://github.com/tjoignant/LinkedInBot/archive/main.zip
+  - Open the *config.yalm* file and enter your LinkedIn Profile's credentials and the wanted filters
+  - Run the *main.py* file 
   
 <br />
 
-**Tips**
-  - Tip 1: Use a Premium Linkedin profile (to avoid the monthly 1000 profile limit)
-  - Tip 2: Run during the night (if you use "ALL" for every filters)
+**Tips:**
+  - Use a Premium Linkedin profile (to avoid the monthly 1000 profile limit)
+  - Run during the night (if you use "ALL" for every filters)
 
 <br />
 
