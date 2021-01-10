@@ -1,5 +1,8 @@
 # LinkedInBot
-Filter the financial world and connect with your future boss !  
+Filter the financial world and connect with your future boss !
+
+<br />
+<br />
 
 Bot version : BETA
 
