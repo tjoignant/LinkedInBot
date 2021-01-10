@@ -3,7 +3,7 @@ Filter the financial world and connect with your future boss !
 
 Bot version : BETA
 
-**Installation Steps**
+**Installation Steps**<br/>
   - Step 1: Download this repository https://github.com/tjoignant/LinkedInBot/archive/main.zip
   - Step 2: Open the *config.yalm* file and enter your LinkedIn Profile's credentials
   - Step 3: Run the *main.py* file 
