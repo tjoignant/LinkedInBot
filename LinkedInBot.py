@@ -25,7 +25,7 @@ class LinkedInBot:
         self.password = password
         # Variables
         self.new_connect_request_cpt = 0
-        self.MAX_PAGE_NB = 10
+        self.MAX_PAGE_NB = 5
 
     def login(self):
         # Login
@@ -90,19 +90,20 @@ class LinkedInBot:
         filter_dictionary = yaml.safe_load(filter_stream)
 
         # Retrieve Roles List
+        roles_list = roles
         if roles[0] == "All" or roles[0] == "ALL":
             if finance == "MARKET":
                 roles_list = filter_dictionary["MARKET_ROLES_LIST"]
             elif finance == "CORPORATE":
                 roles_list = filter_dictionary["CORPO_ROLES_LIST"]
+            elif finance == "AM":
+                roles_list = filter_dictionary["AM_ROLES_LIST"]
             else:
-                roles_list = ['']
                 print('[ERROR] {} - Undefined FINANCE filter (in config.yaml)'.format(self._now()))
                 quit()
-        else:
-            roles_list = roles
 
         # Retrieve Banks List
+        banks_list = banks
         if banks[0] == "All" or banks[0] == "ALL":
             if finance == "MARKET":
                 banks_list = filter_dictionary["MARKET_INSTITUTIONS_LIST"]
@@ -110,20 +111,16 @@ class LinkedInBot:
                 banks_list = filter_dictionary["CORPO_INSTITUTIONS_LIST"]
             else:
                 banks_list = filter_dictionary["AM_INSTITUTIONS_LIST"]
-        else:
-            banks_list = banks
 
         # Retrieve Seniorities List
+        seniorities_list = seniorities
         if seniorities[0] == "All" or seniorities[0] == "ALL":
             seniorities_list = [""]
-        else:
-            seniorities_list = seniorities
 
         # Retrieve Locations List
+        locations_list = locations
         if locations[0] == "All" or locations[0] == "ALL":
             locations_list = [""]
-        else:
-            locations_list = locations
 
         # Shuffle Each List
         shuffle(roles_list)
@@ -166,7 +163,6 @@ class LinkedInBot:
         # Search Text
         print('\n[INFO] {} - Searching "{}"'.format(self._now(), search_text))
         search_bar = self._findElement("class_name", "search-global-typeahead__input", "search_bar")
-        #search = self.driver.find_element_by_class_name('search-global-typeahead__input')
         search_bar.send_keys(search_text)
         search_bar.send_keys(Keys.ENTER)
         self._sleep()

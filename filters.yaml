@@ -1,8 +1,16 @@
-AM_ROLES_LIST : ['Portfolio Manager', 'Quant']
-MARKET_ROLES_LIST : ['Sales', 'Trader', 'Structurer', 'Market Risk', 'Quant']
-CORPO_ROLES_LIST : ['M&A', 'DCM', 'ECM', 'Structured finance', 'Leveraged Finance', 'Private Equity', 'Project Finance',
-                    'Equity Research', 'Credit Analyst', 'Credit Risk']
-MARKET_INSTITUTIONS_LIST: ['JP Morgan', 'BNP', 'RBC', 'BBVA', 'Credit Agricole', 'HSBC', 'UBS', 'Barclays', 'Natixis',
-                           'Deutsche Bank', 'Goldman', 'BofA', 'Morgan Stanley', 'Citi', 'Commerzbank', 'BRED',
-                           'Credit Suisse', 'Societe Generale', 'CACIB']
-CORPO_INSTITUTIONS_LIST: ['', '']
+AM_ROLES_LIST : ["Portfolio Manager", "Quant", "Structurer", "Risk"]
+MARKET_ROLES_LIST : ["Sales", "Trader", "Structurer", "Risk", "Quant"]
+CORPO_ROLES_LIST : ["M&A", "DCM", "ECM", "Structured Finance", "Leveraged Finance", "Private Equity", "Project Finance",
+                    "Equity Research", "Credit Analyst", "Credit Risk"]
+
+AM_INSTITUTIONS_LIST: ["CFM", "BlackRock", "Amundi", "Vanguard", "Allianz", "State Street", "Fidelity", "Capital Group",
+                       "JP Morgan", "BNY Mellon", "PIMCO", "AON", "AXA", "Ashmore Group", "Barclays Wealth",
+                       "BNP Investments", "Brewin Dolphin", "Candriam", "CACIB", "HSBC", "UBS", "Deka Investment",
+                       "Deutsche Asset Management", "Insight Investment", "Invesco Perpetual", "La Francaise",
+                       "Lyxor Asset Management", "Newton Investment Management", "Jane Street", "Odey Asset Management",
+                       "Partners Group", "Permal Group", "Lombard Odier", "Schroders", "Stichting Pensioenfonds",
+                       "Santander"]
+MARKET_INSTITUTIONS_LIST: ["JP Morgan", "BNP", "RBC", "BBVA", "HSBC", "UBS", "Barclays", "Natixis", "CACIB"
+                           "Deutsche Bank", "Goldman", "BofA", "Morgan Stanley", "Citi", "Commerzbank", "BRED",
+                           "Credit Suisse", "Societe Generale"]
+CORPO_INSTITUTIONS_LIST: [""]
