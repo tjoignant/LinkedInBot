@@ -176,6 +176,7 @@ class LinkedInBot:
         cpt = 0
         element_found = False
         element = None
+        # Try 5 Times To Find Element
         while cpt < 5 and element_found == False:
             try:
                 if find_by == "xpath":
@@ -189,6 +190,7 @@ class LinkedInBot:
                     self.quit()
             except Exception as e:
                 print("\n[ERROR] {} - Element {} couldn't be found\n{}".format(self._now(), element_name, e))
+                self._sleep()
                 cpt = cpt + 1
         return element
 
