@@ -10,7 +10,7 @@ AM_INSTITUTIONS_LIST: ["CFM", "BlackRock", "Amundi", "Vanguard", "Allianz", "Sta
                        "Lyxor Asset Management", "Newton Investment Management", "Jane Street", "Odey Asset Management",
                        "Partners Group", "Permal Group", "Lombard Odier", "Schroders", "Stichting Pensioenfonds",
                        "Santander"]
-MARKET_INSTITUTIONS_LIST: ["JP Morgan", "BNP", "RBC", "BBVA", "HSBC", "UBS", "Barclays", "Natixis", "CACIB"
+MARKET_INSTITUTIONS_LIST: ["JP Morgan", "BNP", "RBC", "BBVA", "HSBC", "UBS", "Barclays", "Natixis", "CACIB",
                            "Deutsche Bank", "Goldman", "BofA", "Morgan Stanley", "Citi", "Commerzbank", "BRED",
                            "Credit Suisse", "Societe Generale"]
 CORPO_INSTITUTIONS_LIST: [""]
