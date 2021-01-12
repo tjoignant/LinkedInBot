@@ -2,6 +2,8 @@ import time
 import yaml
 import datetime
 
+from random import shuffle
+
 from selenium import webdriver
 from selenium.common import exceptions
 from selenium.webdriver.common.by import By
@@ -28,15 +30,15 @@ class LinkedInBot:
     def login(self):
         # Login
         self._nav(self.login_url)
-        self.driver.find_element_by_id('username').send_keys(self.username)
-        self.driver.find_element_by_id('password').send_keys(self.password)
-        self.driver.find_element_by_id('password').submit()
+        self.driver.find_element_by_id("username").send_keys(self.username)
+        self.driver.find_element_by_id("password").send_keys(self.password)
+        self.driver.find_element_by_id("password").submit()
         self._sleep()
         # Check Login Status
         if self.driver.current_url != self.base_url + "/checkpoint/lg/login-submit":
-            print('\n[INFO] {} - Successfully logged-in to LinkedIn'.format(self._now()))
+            print("\n[INFO] {} - Successfully logged-in to LinkedIn".format(self._now()))
         else:
-            print('\n[ERROR] {} - Username or password incorrect\n'.format(self._now()))
+            print("\n[ERROR] {} - Username or password incorrect\n".format(self._now()))
             quit()
 
     def connect(self, filter_list):
@@ -46,7 +48,7 @@ class LinkedInBot:
             page_nb = 1
             nb_page_connections = 0
             # Search People
-            self._search(search_text=filter_text, search_filter='People')
+            self._search(search_text=filter_text, search_filter="People")
             self._sleep()
             # Store Current URL
             url = self.driver.current_url
@@ -59,10 +61,15 @@ class LinkedInBot:
                     nb_page_connections = nb_page_connections + 1
                 # EXCEPT Click Interrupted
                 except exceptions.ElementClickInterceptedException:
-                    print('[WARNING] {} - Click On Button Intercepted'.format(self._now()))
-                    break
+                    print("[WARNING] {} - Click On Button Intercepted".format(self._now()))
+                    page_nb = page_nb + 1
+                    if page_nb <= self.MAX_PAGE_NB:
+                        self._display_next_page(url, filter_text, page_nb)
+                    else:
+                        break
                 # EXCEPT Element Not Found
                 except exceptions.TimeoutException:
+                    print("[WARNING] {} - Couldn't find a connect_button".format(self._now()))
                     page_nb = page_nb + 1
                     if page_nb <= self.MAX_PAGE_NB:
                         self._display_next_page(url, filter_text, page_nb)
@@ -72,22 +79,22 @@ class LinkedInBot:
             self._nav(self.feed_url)
 
     def quit(self):
-        print('\n[INFO] {} - Number of connection request sent : {}'.format(self._now(), self.new_connect_request_cpt))
+        print("\n[INFO] {} - Number of connection request sent : {}".format(self._now(), self.new_connect_request_cpt))
         self._sleep()
-        print('\n[INFO] {} - Bot is shutting down'.format(self._now()))
+        print("\n[INFO] {} - Bot is shutting down".format(self._now()))
         self.driver.close()
 
     def buildFilterList(self, finance, roles, banks, seniorities, locations):
         # Load Filters
-        filter_stream = open("filters.yaml", 'r')
+        filter_stream = open("filters.yaml", "r")
         filter_dictionary = yaml.safe_load(filter_stream)
 
         # Retrieve Roles List
-        if roles[0] == 'All' or roles[0] == 'ALL':
-            if finance == 'MARKET':
-                roles_list = filter_dictionary['MARKET_ROLES_LIST']
-            elif finance == 'CORPORATE':
-                roles_list = filter_dictionary['CORPO_ROLES_LIST']
+        if roles[0] == "All" or roles[0] == "ALL":
+            if finance == "MARKET":
+                roles_list = filter_dictionary["MARKET_ROLES_LIST"]
+            elif finance == "CORPORATE":
+                roles_list = filter_dictionary["CORPO_ROLES_LIST"]
             else:
                 roles_list = ['']
                 print('[ERROR] {} - Undefined FINANCE filter (in config.yaml)'.format(self._now()))
@@ -96,27 +103,33 @@ class LinkedInBot:
             roles_list = roles
 
         # Retrieve Banks List
-        if banks[0] == 'All' or banks[0] == 'ALL':
-            if finance == 'MARKET':
-                banks_list = filter_dictionary['MARKET_INSTITUTIONS_LIST']
-            elif finance == 'CORPO':
-                banks_list = filter_dictionary['CORPO_INSTITUTIONS_LIST']
+        if banks[0] == "All" or banks[0] == "ALL":
+            if finance == "MARKET":
+                banks_list = filter_dictionary["MARKET_INSTITUTIONS_LIST"]
+            elif finance == "CORPO":
+                banks_list = filter_dictionary["CORPO_INSTITUTIONS_LIST"]
             else:
-                banks_list = filter_dictionary['AM_INSTITUTIONS_LIST']
+                banks_list = filter_dictionary["AM_INSTITUTIONS_LIST"]
         else:
             banks_list = banks
 
         # Retrieve Seniorities List
-        if seniorities[0] == 'All' or seniorities[0] == 'ALL':
-            seniorities_list = ['']
+        if seniorities[0] == "All" or seniorities[0] == "ALL":
+            seniorities_list = [""]
         else:
             seniorities_list = seniorities
 
         # Retrieve Locations List
-        if locations[0] == 'All' or locations[0] == 'ALL':
-            locations_list = ['']
+        if locations[0] == "All" or locations[0] == "ALL":
+            locations_list = [""]
         else:
             locations_list = locations
+
+        # Shuffle Each List
+        shuffle(roles_list)
+        shuffle(banks_list)
+        shuffle(seniorities_list)
+        shuffle(locations_list)
 
         # Create Overall Filters List
         filters_list = []
@@ -140,25 +153,48 @@ class LinkedInBot:
         connect_button.click()
         self._sleep()
         # Click On "Send" Button
-        self.driver.find_element_by_class_name('ml1').click()
+        send_button = self._findElement("class_name", "ml1", "send_button")
+        send_button.click()
+        print("[INFO] {} - New connection request sent".format(self._now()))
         self._sleep()
         # Update Counter
         self.new_connect_request_cpt += 1
-        print('[INFO] {} - New connection request sent'.format(self._now()))
 
-    def _search(self, search_text, search_filter='People'):
+    def _search(self, search_text, search_filter="People"):
         # GoTo LinkedIn "Feed"
         self._nav(self.feed_url)
         # Search Text
         print('\n[INFO] {} - Searching "{}"'.format(self._now(), search_text))
-        search = self.driver.find_element_by_class_name('search-global-typeahead__input')
-        search.send_keys(search_text)
-        search.send_keys(Keys.ENTER)
+        search_bar = self._findElement("class_name", "search-global-typeahead__input", "search_bar")
+        #search = self.driver.find_element_by_class_name('search-global-typeahead__input')
+        search_bar.send_keys(search_text)
+        search_bar.send_keys(Keys.ENTER)
         self._sleep()
         # Filter Results
         if search_filter == "People":
-            self.driver.find_element_by_xpath("//button[text()='People']").click()
+            people_button = self._findElement("xpath", "//button[text()='People']", "people_button")
+            people_button.click()
             self._sleep()
+
+    def _findElement(self, find_by, find_string, element_name):
+        cpt = 0
+        element_found = False
+        element = None
+        while cpt < 5 and element_found == False:
+            try:
+                if find_by == "xpath":
+                    element = self.driver.find_element_by_xpath(find_string)
+                    element_found = True
+                elif find_by == "class_name":
+                    element = self.driver.find_element_by_class_name(find_string)
+                    element_found = True
+                else:
+                    print("\n[ERROR] {} - Invalid find_by type request".format(self._now()))
+                    self.quit()
+            except Exception as e:
+                print("\n[ERROR] {} - Element {} couldn't be found\n{}".format(self._now(), element_name, e))
+                cpt = cpt + 1
+        return element
 
     def _nav(self, url):
         # GoTo URL
@@ -177,21 +213,21 @@ class LinkedInBot:
         return now_str
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Load Config Parameters
-    config_stream = open("config.yaml", 'r')
+    config_stream = open("config.yaml", "r")
     config_dictionary = yaml.safe_load(config_stream)
 
     # Initialize Bot Identification Parameters
-    USER_EMAIL = config_dictionary['identification']['USER_EMAIL']
-    USER_PASSWORD = config_dictionary['identification']['USER_PASSWORD']
+    USER_EMAIL = config_dictionary["identification"]["USER_EMAIL"]
+    USER_PASSWORD = config_dictionary["identification"]["USER_PASSWORD"]
 
     # Initialize Bot Filter Parameters
-    FINANCE = config_dictionary['filters']['FINANCE']
-    ROLES = config_dictionary['filters']['ROLES']
-    BANKS = config_dictionary['filters']['INSTITUTIONS']
-    SENIORITIES = config_dictionary['filters']['SENIORITIES']
-    LOCATIONS = config_dictionary['filters']['LOCATIONS']
+    FINANCE = config_dictionary["filters"]["FINANCE"]
+    ROLES = config_dictionary["filters"]["ROLES"]
+    BANKS = config_dictionary["filters"]["INSTITUTIONS"]
+    SENIORITIES = config_dictionary["filters"]["SENIORITIES"]
+    LOCATIONS = config_dictionary["filters"]["LOCATIONS"]
 
     # Initialize Bot
     bot = LinkedInBot(USER_EMAIL, USER_PASSWORD)
