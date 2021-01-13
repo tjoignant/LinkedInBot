@@ -53,9 +53,11 @@ class LinkedInBot:
             # Find Each Connect Buttons
             while True:
                 connect_button = self._findElement("xpath", "//button[@class='artdeco-button artdeco-button--2 artdeco-button--secondary ember-view'][contains(.,'Connect')]", "connect_button", 1, False)
-                # IF One Connect Button Found
+                # IF Connect Button Found
                 if connect_button is not None:
-                    self._send_connection(connect_button)
+                    request_send = self._send_connection(connect_button)
+                    if request_send is False:
+                        break
                     self._sleep()
                 # ELSE
                 else:
@@ -64,7 +66,7 @@ class LinkedInBot:
                         self._display_next_page(url, filter_text, page_nb)
                     else:
                         break
-            # Return To Feed
+            # GoTo LinkedIn Feed
             self._nav(self.feed_url)
 
     def quit(self):
@@ -128,26 +130,34 @@ class LinkedInBot:
         return filters_list
 
     def _display_next_page(self, url, search_text, page_nb):
-        # GoTo Next Page
+        # GoTo Next Result Page
         new_ulr = url + "&page=" + str(page_nb)
-        print('\n[INFO] {} - Searching "{}" (page {})'.format(self._now(), search_text, page_nb))
+        print("\n[INFO] {} - Searching for: {} (page {})".format(self._now(), search_text, page_nb))
         self._nav(new_ulr)
 
     def _send_connection(self, connect_button):
-        # Click On "Connect" Button
-        connect_button.click()
-        # Click On "Send" Button
-        send_button = self._findElement("xpath", "//button[@class='ml1 artdeco-button artdeco-button--3 artdeco-button--primary ember-view'][contains(.,'Send')]", "send_button")
-        send_button.click()
-        print("[INFO] {} - New connection request sent".format(self._now()))
-        # Update New Connection Counter
-        self.new_connect_request_cpt += 1
+        request_send = True
+        # Click On Connect Button
+        try:
+            connect_button.click()
+            # Click On Send Button
+            send_button = self._findElement("xpath", "//button[@class='ml1 artdeco-button artdeco-button--3 artdeco-button--primary ember-view'][contains(.,'Send')]", "send_button")
+            send_button.click()
+            print("[INFO] {} - New connection request sent".format(self._now()))
+            # Update New Connection Counter
+            self.new_connect_request_cpt += 1
+        # EXCEPT Click Interrupted
+        except exceptions.ElementClickInterceptedException:
+            print("[WARNING] {} - Click on connect_button intercepted".format(self._now()))
+            print("[WARNING] {} - Filter's weekly new request limit reached".format(self._now()))
+            request_send = False
+        return request_send
 
     def _search(self, search_text, search_filter="People"):
-        # GoTo LinkedIn "Feed"
+        # GoTo LinkedIn Feed
         self._nav(self.feed_url)
         # Search Text
-        print('\n[INFO] {} - Searching "{}"'.format(self._now(), search_text))
+        print("\n[INFO] {} - Searching for: {}".format(self._now(), search_text))
         search_bar = self._findElement("xpath", "//input[@class='search-global-typeahead__input always-show-placeholder']", "search_bar")
         search_bar.send_keys(search_text)
         search_bar.send_keys(Keys.ENTER)
@@ -161,7 +171,7 @@ class LinkedInBot:
         cpt = 1
         element_found = False
         element = None
-        # Try 3 Times To Find Element
+        # Try Multiple Times To Find Element
         while not element_found and cpt <= max_nb_tries:
             try:
                 if find_by == "xpath":
@@ -178,17 +188,17 @@ class LinkedInBot:
                 print("[WARNING] {} - connect_button is not attached to the page document, retrying in a couple of seconds".format(self._now()))
                 self._sleep()
                 cpt = cpt + 1
-            # EXCEPT Click Interrupted
-            except exceptions.ElementClickInterceptedException:
-                print("[WARNING] {} - Click on {} intercepted, retrying in a couple a seconds".format(self._now(), element_name))
-                self._sleep()
-                cpt = cpt + 1
             # EXCEPT Element Not Found
             except exceptions.TimeoutException:
                 if max_nb_tries == 1:
                     print("[WARNING] {} - Couldn't find a {}".format(self._now(), element_name))
                 else:
                     print("[WARNING] {} - Couldn't find a {}, retrying in a couple a seconds".format(self._now(), element_name))
+                self._sleep()
+                cpt = cpt + 1
+            # EXCEPT Undefined Exception
+            except Exception as e:
+                print("[WARNING] {} - Undefined exception: {}".format(self._now(), e))
                 self._sleep()
                 cpt = cpt + 1
         # IF Element Not Found
