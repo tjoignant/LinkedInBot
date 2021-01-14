@@ -1,6 +1,7 @@
 import time
 import yaml
 import datetime
+import requests
 
 from random import shuffle
 
@@ -28,6 +29,8 @@ class LinkedInBot:
         self.MAX_PAGE_NB = 5
 
     def login(self):
+        # Check Internet Connection
+        self._internetStatusCheck()
         # Login
         self._nav(self.login_url)
         self.driver.find_element_by_id("username").send_keys(self.username)
@@ -45,7 +48,6 @@ class LinkedInBot:
         for filter_text in filter_list:
             # Initialize Variables
             page_nb = 1
-            nb_page_connections = 0
             # Search People
             self._search(search_text=filter_text, search_filter="People")
             # Store Current URL
@@ -193,6 +195,7 @@ class LinkedInBot:
                 if max_nb_tries == 1:
                     print("[WARNING] {} - Couldn't find a {}".format(self._now(), element_name))
                 else:
+                    self._internetStatusCheck()
                     print("[WARNING] {} - Couldn't find a {}, retrying in a couple a seconds".format(self._now(), element_name))
                 self._sleep()
                 cpt = cpt + 1
@@ -210,6 +213,23 @@ class LinkedInBot:
     def _nav(self, url):
         # GoTo URL
         self.driver.get(url)
+
+    def _internetStatusCheck(self):
+        url = "http://www.kite.com"
+        timeout = 5
+        cpt = 1
+        while True:
+            try:
+                requests.get(url, timeout=timeout)
+                break
+            except (requests.ConnectionError, requests.Timeout):
+                if cpt > 3:
+                    print("[ERROR] {} - Max number of retries reached".format(self._now()))
+                    self.quit()
+                else:
+                    print("[WARNING] {} - Can't connect to internet, retrying in 30s".format(self._now()))
+                    cpt = cpt + 1
+                    self._sleep(30)
 
     @staticmethod
     def _sleep(seconds=5):
