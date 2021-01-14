@@ -15,7 +15,7 @@ Bot version : v.1.3.3
 <br />
 
 **Tips:**
-  - Use a Premium Linkedin profile (to avoid the monthly 1000 profiles visited limit)
+  - Use a Premium Linkedin profile (to avoid the monthly 1000 profiles searched limit)
   - Run during the night (especially if you use "ALL" for every filters)
 
 <br />
