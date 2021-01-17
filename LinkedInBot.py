@@ -59,8 +59,8 @@ class LinkedInBot:
                 if connect_button is not None:
                     request_send = self._send_connection(connect_button)
                     if request_send is False:
-                        break
-                    self._sleep()
+                        self.quit()
+                    self._sleep(3)
                 # ELSE
                 else:
                     page_nb = page_nb + 1
@@ -139,20 +139,23 @@ class LinkedInBot:
 
     def _send_connection(self, connect_button):
         request_send = True
-        # Click On Connect Button
         try:
+            # Click On Connect Button
             connect_button.click()
             # Click On Send Button
             send_button = self._findElement("xpath", "//button[@class='ml1 artdeco-button artdeco-button--3 artdeco-button--primary ember-view'][contains(.,'Send')]", "send_button")
             send_button.click()
-            print("[INFO] {} - New connection request sent".format(self._now()))
-            # Update New Connection Counter
-            self.new_connect_request_cpt += 1
+            self._sleep(1)
+            # Check Connect Button Is Still Accessible
+            connect_button.click()
         # EXCEPT Click Interrupted
         except exceptions.ElementClickInterceptedException:
             print("[WARNING] {} - Click on connect_button intercepted".format(self._now()))
-            print("[WARNING] {} - Filter's weekly new request limit reached".format(self._now()))
+            print("[WARNING] {} - Weekly new connection request limit reached".format(self._now()))
             request_send = False
+        except exceptions.StaleElementReferenceException:
+            print("[INFO] {} - New connection request sent".format(self._now()))
+            self.new_connect_request_cpt += 1
         return request_send
 
     def _search(self, search_text, search_filter="People"):
