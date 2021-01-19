@@ -30,7 +30,7 @@ class LinkedInBot:
 
     def login(self):
         # Check Internet Connection
-        self._internetStatusCheck()
+        self._check_internet_status()
         # Login
         self._nav(self.login_url)
         self.driver.find_element_by_id("username").send_keys(self.username)
@@ -54,7 +54,7 @@ class LinkedInBot:
             url = self.driver.current_url
             # Find Each Connect Buttons
             while True:
-                connect_button = self._findElement("xpath", "//button[@class='artdeco-button artdeco-button--2 artdeco-button--secondary ember-view'][contains(.,'Connect')]", "connect_button", 1, False)
+                connect_button = self._find_element("xpath", "//button[@class='artdeco-button artdeco-button--2 artdeco-button--secondary ember-view'][contains(.,'Connect')]", "connect_button", 1, False)
                 # IF Connect Button Found
                 if connect_button is not None:
                     request_send = self._send_connection(connect_button)
@@ -77,33 +77,28 @@ class LinkedInBot:
         self.driver.close()
         quit()
 
-    def buildFilterList(self, finance, roles, banks, seniorities, locations):
-        # Load Filters
-        filter_stream = open("filters.yaml", "r")
-        filter_dictionary = yaml.safe_load(filter_stream)
+    def build_filter_list(self, config_dict):
+        # Initialize Bot Filter Parameters
+        finance = config_dict["filters"]["FINANCE"]
+        roles = config_dict["filters"]["ROLES"]
+        institutions = config_dict["filters"]["INSTITUTIONS"]
+        seniorities = config_dict["filters"]["SENIORITIES"]
+        locations = config_dict["filters"]["LOCATIONS"]
+
+        # Check Finance Filter
+        if finance != "MARKET" and finance != "CORPO" and finance != "AM":
+            print('[ERROR] {} - Undefined FINANCE filter (in config.yaml)'.format(self._now()))
+            quit()
 
         # Retrieve Roles List
         roles_list = roles
         if roles[0] == "All" or roles[0] == "ALL":
-            if finance == "MARKET":
-                roles_list = filter_dictionary["MARKET_ROLES_LIST"]
-            elif finance == "CORPORATE":
-                roles_list = filter_dictionary["CORPO_ROLES_LIST"]
-            elif finance == "AM":
-                roles_list = filter_dictionary["AM_ROLES_LIST"]
-            else:
-                print('[ERROR] {} - Undefined FINANCE filter (in config.yaml)'.format(self._now()))
-                quit()
+            roles_list = config_dict["roles"][finance]
 
         # Retrieve Banks List
-        banks_list = banks
-        if banks[0] == "All" or banks[0] == "ALL":
-            if finance == "MARKET":
-                banks_list = filter_dictionary["MARKET_INSTITUTIONS_LIST"]
-            elif finance == "CORPO":
-                banks_list = filter_dictionary["CORPO_INSTITUTIONS_LIST"]
-            else:
-                banks_list = filter_dictionary["AM_INSTITUTIONS_LIST"]
+        institutions_list = institutions
+        if institutions[0] == "All" or institutions[0] == "ALL":
+            institutions_list = config_dict["institutions"][finance]
 
         # Retrieve Seniorities List
         seniorities_list = seniorities
@@ -117,17 +112,17 @@ class LinkedInBot:
 
         # Shuffle Each List
         shuffle(roles_list)
-        shuffle(banks_list)
+        shuffle(institutions)
         shuffle(seniorities_list)
         shuffle(locations_list)
 
         # Create Overall Filters List
         filters_list = []
         for role in roles_list:
-            for bank in banks_list:
+            for institution in institutions_list:
                 for seniority in seniorities_list:
                     for location in locations_list:
-                        new_filter = role + ' ' + bank + ' ' + seniority + ' ' + location
+                        new_filter = role + ' ' + institution + ' ' + seniority + ' ' + location
                         filters_list.append(new_filter.rstrip())
         return filters_list
 
@@ -143,7 +138,7 @@ class LinkedInBot:
             # Click On Connect Button
             connect_button.click()
             # Click On Send Button
-            send_button = self._findElement("xpath", "//button[@class='ml1 artdeco-button artdeco-button--3 artdeco-button--primary ember-view'][contains(.,'Send')]", "send_button")
+            send_button = self._find_element("xpath", "//button[@class='ml1 artdeco-button artdeco-button--3 artdeco-button--primary ember-view'][contains(.,'Send')]", "send_button")
             send_button.click()
             self._sleep(1)
             # Check Connect Button Is Still Accessible
@@ -163,16 +158,16 @@ class LinkedInBot:
         self._nav(self.feed_url)
         # Search Text
         print("\n[INFO] {} - Searching for: {}".format(self._now(), search_text))
-        search_bar = self._findElement("xpath", "//input[@class='search-global-typeahead__input always-show-placeholder']", "search_bar")
+        search_bar = self._find_element("xpath", "//input[@class='search-global-typeahead__input always-show-placeholder']", "search_bar")
         search_bar.send_keys(search_text)
         search_bar.send_keys(Keys.ENTER)
         # Filter Results
         if search_filter == "People":
-            people_button = self._findElement("xpath", "//button[@class='artdeco-pill artdeco-pill--slate artdeco-pill--2 artdeco-pill--choice ember-view search-reusables__filter-pill-button'][contains(.,'People')]", "people_button")
+            people_button = self._find_element("xpath", "//button[@class='artdeco-pill artdeco-pill--slate artdeco-pill--2 artdeco-pill--choice ember-view search-reusables__filter-pill-button'][contains(.,'People')]", "people_button")
             people_button.click()
             self._sleep()
 
-    def _findElement(self, find_by, find_string, element_name, max_nb_tries=3, quit_if_not_found=True):
+    def _find_element(self, find_by, find_string, element_name, max_nb_tries=3, quit_if_not_found=True):
         cpt = 1
         element_found = False
         element = None
@@ -198,7 +193,7 @@ class LinkedInBot:
                 if max_nb_tries == 1:
                     print("[WARNING] {} - Couldn't find a {}".format(self._now(), element_name))
                 else:
-                    self._internetStatusCheck()
+                    self._check_internet_status()
                     print("[WARNING] {} - Couldn't find a {}, retrying in a couple a seconds".format(self._now(), element_name))
                 self._sleep()
                 cpt = cpt + 1
@@ -217,7 +212,7 @@ class LinkedInBot:
         # GoTo URL
         self.driver.get(url)
 
-    def _internetStatusCheck(self):
+    def _check_internet_status(self):
         url = "http://www.kite.com"
         timeout = 5
         cpt = 1
@@ -246,7 +241,7 @@ class LinkedInBot:
 
 
 if __name__ == "__main__":
-    # Load Config Parameters
+    # Load Config File
     config_stream = open("config.yaml", "r")
     config_dictionary = yaml.safe_load(config_stream)
 
@@ -254,18 +249,11 @@ if __name__ == "__main__":
     USER_EMAIL = config_dictionary["identification"]["USER_EMAIL"]
     USER_PASSWORD = config_dictionary["identification"]["USER_PASSWORD"]
 
-    # Initialize Bot Filter Parameters
-    FINANCE = config_dictionary["filters"]["FINANCE"]
-    ROLES = config_dictionary["filters"]["ROLES"]
-    BANKS = config_dictionary["filters"]["INSTITUTIONS"]
-    SENIORITIES = config_dictionary["filters"]["SENIORITIES"]
-    LOCATIONS = config_dictionary["filters"]["LOCATIONS"]
-
     # Initialize Bot
     bot = LinkedInBot(USER_EMAIL, USER_PASSWORD)
 
     # Initialize Filter List
-    filters = bot.buildFilterList(FINANCE, ROLES, BANKS, SENIORITIES, LOCATIONS)
+    filters = bot.build_filter_list(config_dictionary)
 
     # Run Bot
     bot.login()

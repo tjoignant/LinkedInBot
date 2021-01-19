@@ -8,3 +8,20 @@ filters:
   INSTITUTIONS : ['All']
   SENIORITIES : ['All']
   LOCATIONS : ['All']
+
+roles:
+  AM :     ["Portfolio Manager", "Quant", "Structurer", "Risk"]
+  MARKET : ["Sales", "Trader", "Structurer", "Risk", "Quant"]
+  CORPO :  ["M&A", "DCM", "ECM", "Structured Finance", "Leveraged Finance", "Private Equity", "Project Finance",
+            "Equity Research", "Credit Analyst", "Credit Risk"]
+
+institutions:
+  AM:      ["CFM", "BlackRock", "Amundi", "Vanguard", "Allianz", "State Street", "Fidelity", "Capital Group", "UBS",
+            "JP Morgan", "BNY Mellon", "PIMCO", "AON", "AXA", "Ashmore Group", "Barclays Wealth", "Santander", "HSBC",
+            "BNP Investments", "Brewin Dolphin", "Candriam", "CACIB", "Deka Investment", "Schroders", "Permal Group",
+            "Deutsche Asset Management", "Insight Investment", "Invesco Perpetual", "La Francaise", "Lombard Odier",
+            "Lyxor Asset Management", "Newton Investment Management", "Jane Street", "Odey Asset Management",
+            "Partners Group", "Stichting Pensioenfonds"]
+  MARKET:  ["JP Morgan", "BNP", "RBC", "BBVA", "HSBC", "UBS", "Barclays", "Natixis", "CACIB", "Credit Suisse",
+            "Deutsche Bank", "Goldman", "BofA", "Morgan Stanley", "Citi", "Commerzbank", "BRED", "Societe Generale"]
+  CORPO:   [""]
