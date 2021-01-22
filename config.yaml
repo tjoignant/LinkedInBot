@@ -1,9 +1,9 @@
 identification:
-  USER_EMAIL : 'enter_your_LinkedIn_username'
-  USER_PASSWORD : 'enter_your_LinkedIn_password'
+  USER_EMAIL : 'tjoignant@gmail.com'
+  USER_PASSWORD : 'Gomiami1'
 
 filters:
-  FINANCE : 'MARKET'
+  FINANCE : 'AM'
   ROLES : ['All']
   INSTITUTIONS : ['All']
   SENIORITIES : ['All']
@@ -16,12 +16,17 @@ roles:
             "Equity Research", "Credit Analyst", "Credit Risk"]
 
 institutions:
-  AM:      ["CFM", "BlackRock", "Amundi", "Vanguard", "Allianz", "State Street", "Fidelity", "Capital Group", "UBS",
-            "JP Morgan", "BNY Mellon", "PIMCO", "AON", "AXA", "Ashmore Group", "Barclays Wealth", "Santander", "HSBC",
-            "BNP Investments", "Brewin Dolphin", "Candriam", "CACIB", "Deka Investment", "Schroders", "Permal Group",
-            "Deutsche Asset Management", "Insight Investment", "Invesco Perpetual", "La Francaise", "Lombard Odier",
-            "Lyxor Asset Management", "Newton Investment Management", "Jane Street", "Odey Asset Management",
-            "Partners Group", "Stichting Pensioenfonds"]
+  AM:      ["BNY Mellon", "Comgest", "Eleva Capital", "Tikehau Capital", "Twenty First Capital", "Varenne Capital Partners",
+            "Acofi Gestion", "Allianz Global Investors", "Amundi", "Amilton AM", "Amiral Gestion", "Blackrock",
+            "Aviva Investors", "Axa IM", "Axiom AI", "BFT IM", "BNPP AM", "Candriam", "Carmignac", "CPR AM", 
+            "Crédit Mutuel Asset Management", "DNCA Finance", "Dorval AM", "DWS", "Ecofi Investissements", "Edram",
+            "Eiffel Investment Group", "Eres Gestion", "Federal Finance Gestion", "Fidelity International", "Financière Arbevel",
+            "Generali Investments", "Groupama AM", "Invesco Asset Management", "JP Morgan Asset Management",
+            "La Financière de l'Echiquier", "La Française AM", "Lazard Frères Gestion", "Lombard Odier Investment Managers",
+            "Lyxor Asset Management", "M&G Investments", "Malakoff Humanis Gestion d'Actifs", "Mirova", "Morgan Stanley IM",
+            "Muzinich & Co", "Natixis IM", "Neuberger Berman", "NN Investment Parteners", "Oddo BHF AM", "OFI AM", "Ossiam",
+            "Ostrum Asset Management", "Palatine AM", "Pictet AM", "Rivage Investment", "Robeco", "Rothschild & Co Asset Management",
+            "Schelcher Prince Gestion", "Schroders", "SCOR IP", "Swiss Life Asset Management", "Sycomore", "UBP Asset Management"]
   MARKET:  ["JP Morgan", "BNP", "RBC", "BBVA", "HSBC", "UBS", "Barclays", "Natixis", "CACIB", "Credit Suisse",
             "Deutsche Bank", "Goldman", "BofA", "Morgan Stanley", "Citi", "Commerzbank", "BRED", "Societe Generale"]
   CORPO:   [""]
