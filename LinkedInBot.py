@@ -19,8 +19,8 @@ class LinkedInBot:
         self.driver = webdriver.Chrome("./chromedriver")
         # URL Addresses
         self.base_url = "https://www.linkedin.com"
-        self.login_url = self.base_url + "/login"
-        self.feed_url = self.base_url + "/feed"
+        self.login_url = self.base_url + "/login/"
+        self.feed_url = self.base_url + "/feed/"
         # LinkedIn Credentials
         self.username = username
         self.password = password
@@ -38,7 +38,7 @@ class LinkedInBot:
         self.driver.find_element_by_id("password").submit()
         self._sleep(1)
         # Check Login Status
-        if self.driver.current_url != self.base_url + "/checkpoint/lg/login-submit":
+        if self.driver.current_url == self.feed_url:
             print("\n[INFO] {} - Successfully logged-in to LinkedIn".format(self._now()))
         else:
             print("\n[ERROR] {} - Username or password incorrect".format(self._now()))
@@ -113,7 +113,7 @@ class LinkedInBot:
 
         # Shuffle Each List
         shuffle(roles_list)
-        shuffle(institutions)
+        shuffle(institutions_list)
         shuffle(seniorities_list)
         shuffle(locations_list)
 
