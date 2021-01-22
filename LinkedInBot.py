@@ -36,12 +36,13 @@ class LinkedInBot:
         self.driver.find_element_by_id("username").send_keys(self.username)
         self.driver.find_element_by_id("password").send_keys(self.password)
         self.driver.find_element_by_id("password").submit()
+        self._sleep(1)
         # Check Login Status
         if self.driver.current_url != self.base_url + "/checkpoint/lg/login-submit":
             print("\n[INFO] {} - Successfully logged-in to LinkedIn".format(self._now()))
         else:
-            print("\n[ERROR] {} - Username or password incorrect\n".format(self._now()))
-            quit()
+            print("\n[ERROR] {} - Username or password incorrect".format(self._now()))
+            self.quit()
 
     def connect(self, filter_list):
         # For Each Filter
