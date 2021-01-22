@@ -3,7 +3,7 @@ Filter the financial world and connect with your future boss!
 
 <br />
 
-Bot version : v.1.5
+Bot version : v.1.6
 
 <br />
 
