@@ -10,7 +10,7 @@ Bot version : v.1.6
 **Installation Steps:**
   - Download this repository https://github.com/tjoignant/LinkedInBot/archive/main.zip
   - Open the *config.yaml* file and enter your LinkedIn Profile's credentials and the wanted filters
-  - Run the *main.py* file 
+  - Run the *LinkedInBot.py* file 
   
 <br />
 
